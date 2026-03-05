@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-context.mjs\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/session-context.sh\"",
             "timeout": 5
           }
         ]
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/skill-detector.mjs\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/skill-detector.sh\"",
             "timeout": 3
           }
         ]
@@ -31,7 +31,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/gate-guard.mjs\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/gate-guard.sh\"",
             "timeout": 3
           }
         ]
@@ -41,7 +41,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/constitution-guard.mjs\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/constitution-guard.sh\"",
             "timeout": 3
           }
         ]
@@ -51,7 +51,29 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/constitution-guard.mjs\"",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/constitution-guard.sh\"",
+            "timeout": 3
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/diagnostic-reminder.sh\"",
+            "timeout": 3
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/diagnostic-reminder.sh\"",
             "timeout": 3
           }
         ]

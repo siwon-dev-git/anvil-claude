@@ -31,18 +31,28 @@ Available when `.anvil/` exists in the project root.
 
 | Skill | Trigger | Purpose |
 |-------|---------|---------|
-| `/constitution` | "constitution", "rules" | Trust anchor management |
-| `/self-model` | "self-model", "status" | Project self-awareness |
-| `/adr` | "adr", "decision" | Architecture Decision Records |
-| `/fmea` | "fmea", "failure" | Failure Mode & Effects Analysis |
-| `/gate-chain` | "gate", "check" | Sequential quality gates |
-| `/sprint <quest>` | "sprint", "build" | Build cycle (11 steps + 6 gates) |
-| `/sprint [N]` | "maintain", "heal" | Heal cycle (sense-decide-execute-learn) |
-| `/structure` | "structure", "tier" | Code structure classification |
-| `/commit` | "commit" | Commit convention + PR workflow |
-| `/research` | "research" | Evidence-based research with falsification |
-| `/health` | "health" | Quick health scan |
-| `/anvil init` | first-time setup | Project initialization |
+| `/anvil-claude:init` | "anvil init" | Project initialization |
+| `/anvil-claude:constitution` | "constitution", "rules" | Trust anchor management |
+| `/anvil-claude:self-model` | "self-model", "status" | Project self-awareness |
+| `/anvil-claude:adr` | "adr", "decision" | Architecture Decision Records |
+| `/anvil-claude:fmea` | "fmea", "failure" | Failure Mode & Effects Analysis |
+| `/anvil-claude:gate-chain` | "gate", "check" | Sequential quality gates |
+| `/anvil-claude:sprint <quest>` | "sprint", "build" | Build cycle (11 steps + 6 gates) |
+| `/anvil-claude:sprint` | "maintain", "heal" | Heal cycle (sense-decide-execute-learn) |
+| `/anvil-claude:structure` | "structure", "tier" | Code structure classification |
+| `/anvil-claude:commit` | "commit" | Commit convention + PR workflow |
+| `/anvil-claude:research` | "research" | Evidence-based research with falsification |
+| `/anvil-claude:health` | "health" | Quick health scan |
+
+## How It Works
+
+```
+User prompt → skill-detector.sh → matches trigger → SKILL.md loaded as context
+SessionStart → session-context.sh → injects .anvil/ state
+PreToolUse:Bash → gate-guard.sh → blocks --force/--no-verify
+PreToolUse:Edit/Write → constitution-guard.sh → warns on constitution.md
+PostToolUse:Edit/Write → diagnostic-reminder.sh → check IDE diagnostics
+```
 
 ## Governance Files
 
@@ -61,7 +71,23 @@ Available when `.anvil/` exists in the project root.
 ├── checks/
 │   ├── gates.yaml       <- Gate definitions
 │   └── *.sh             <- Gate scripts (exit 0/1)
-└── profile.yaml         <- Project configuration
+└── profile.yaml         <- Project configuration (stack, commands)
+```
+
+## profile.yaml
+
+Stack detection auto-generates this. Override tool commands here:
+
+```yaml
+stack: node
+pkg: pnpm
+commands:
+  lint: pnpm run lint
+  typecheck: pnpm run typecheck
+  test: pnpm run test:ci
+  build: pnpm run build
+  format_check: pnpm run format:check
+  format: pnpm run format
 ```
 
 ## Gate Execution

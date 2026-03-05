@@ -11,7 +11,7 @@ $ARGUMENTS
 
 - `show` -> Read `.anvil/self-model.md` and display
 - `update` -> Analyze current project state -> Edit `.anvil/self-model.md`
-- `init` -> Read `templates/self-model.md.tpl` -> Write to `.anvil/self-model.md`
+- `init` -> Read `templates/self-model.md` -> Write to `.anvil/self-model.md`
 
 ## When to Update
 

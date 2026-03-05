@@ -10,12 +10,12 @@ First-time project setup. Creates `.anvil/` directory with governance files.
 
 ## Commands
 
-- `/anvil init` — detect stack, create `.anvil/` with all governance files
+- `/anvil-claude:init` — detect stack, create `.anvil/` with all governance files
 
 ## Flow
 
-1. Run `scripts/detect-stack.sh` to identify package manager and tooling
-2. Run `scripts/setup.sh` to scaffold `.anvil/` from templates
+1. Run `skills/init/scripts/detect-stack.sh` to identify package manager and tooling
+2. Run `skills/init/scripts/setup.sh` to scaffold `.anvil/` from templates
 3. Report created files
 
 ## What gets created

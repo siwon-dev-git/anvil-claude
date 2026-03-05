@@ -11,7 +11,7 @@ $ARGUMENTS
 
 - `show` -> Read `.anvil/constitution.md` and display
 - `verify` -> Bash `scripts/guard.sh` (checksum verification)
-- `init` -> Read `templates/constitution.md.tpl` -> Write to `.anvil/constitution.md`
+- `init` -> Read `templates/constitution.md` -> Write to `.anvil/constitution.md`
 
 ## Rules
 

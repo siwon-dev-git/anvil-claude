@@ -26,24 +26,24 @@ bash "$SCRIPT_DIR/detect-stack.sh" "$ROOT" | grep -A 100 '^---' > "$ANVIL/profil
 
 # Copy templates
 echo "[2/7] Constitution..."
-cp "$PLUGIN_DIR/skills/constitution/templates/constitution.md.tpl" "$ANVIL/constitution.md"
+cp "$PLUGIN_DIR/skills/constitution/templates/constitution.md" "$ANVIL/constitution.md"
 
 echo "[3/7] Self-model..."
-cp "$PLUGIN_DIR/skills/self-model/templates/self-model.md.tpl" "$ANVIL/self-model.md"
+cp "$PLUGIN_DIR/skills/self-model/templates/self-model.md" "$ANVIL/self-model.md"
 
 echo "[4/7] Decisions..."
-cp "$PLUGIN_DIR/skills/adr/templates/decisions.md.tpl" "$ANVIL/decisions/active.md"
+cp "$PLUGIN_DIR/skills/adr/templates/decisions.md" "$ANVIL/decisions/active.md"
 echo "# Archived Decisions" > "$ANVIL/decisions/archived.md"
 
 echo "[5/7] Failures..."
-cp "$PLUGIN_DIR/skills/fmea/templates/failures.md.tpl" "$ANVIL/failures/active.md"
-cp "$PLUGIN_DIR/skills/fmea/templates/archived.md.tpl" "$ANVIL/failures/archived.md"
+cp "$PLUGIN_DIR/skills/fmea/templates/failures.md" "$ANVIL/failures/active.md"
+cp "$PLUGIN_DIR/skills/fmea/templates/archived.md" "$ANVIL/failures/archived.md"
 
 echo "[6/7] Structure..."
-cp "$PLUGIN_DIR/skills/structure/templates/tiers.md.tpl" "$ANVIL/structure/tiers.md"
+cp "$PLUGIN_DIR/skills/structure/templates/tiers.md" "$ANVIL/structure/tiers.md"
 
 echo "[7/7] Gates..."
-cp "$PLUGIN_DIR/skills/gate-chain/templates/gates.yaml.tpl" "$ANVIL/checks/gates.yaml"
+cp "$PLUGIN_DIR/skills/gate-chain/templates/gates.yaml" "$ANVIL/checks/gates.yaml"
 
 CREATED=$(find "$ANVIL" -type f | wc -l | tr -d ' ')
 echo ""

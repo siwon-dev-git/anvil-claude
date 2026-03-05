@@ -13,7 +13,7 @@ $ARGUMENTS
 - `add <name> [tags] -> <decision>` -> Append to `.anvil/decisions/active.md`
 - `search <keyword>` -> Grep `.anvil/decisions/active.md`
 - `archive <name>` -> Move entry from active.md to archived.md
-- `init` -> Read `templates/decisions.md.tpl` -> Write to `.anvil/decisions/`
+- `init` -> Read `templates/decisions.md` -> Write to `.anvil/decisions/`
 
 ## Format
 
