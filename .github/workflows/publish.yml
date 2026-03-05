@@ -59,11 +59,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to npm
         run: |
           echo "Publishing v${{ needs.check-version.outputs.version }} with tag ${{ needs.check-version.outputs.npm_tag }}"
+          npm config set "//registry.npmjs.org/:_authToken" ""
           npm publish --provenance --access public --tag ${{ needs.check-version.outputs.npm_tag }}
 
       - name: Create GitHub Release
