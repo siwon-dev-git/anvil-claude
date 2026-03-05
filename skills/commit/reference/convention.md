@@ -2,7 +2,7 @@
 
 ## Format
 
-```
+```text
 type(scope): subject
 
 body (optional)
@@ -13,7 +13,7 @@ Co-Authored-By: ...
 ## Types
 
 | Type | When |
-|------|------|
+| ---- | ---- |
 | feat | New feature |
 | fix | Bug fix |
 | refactor | Code restructure, no behavior change |
