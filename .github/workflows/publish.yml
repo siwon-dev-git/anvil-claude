@@ -4,10 +4,6 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: read
-  id-token: write
-
 jobs:
   ci:
     name: CI Gates
@@ -17,6 +13,12 @@ jobs:
     name: Publish
     needs: ci
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/anvil-claude
     steps:
       - uses: actions/checkout@v4
 
