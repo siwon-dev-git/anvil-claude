@@ -51,6 +51,18 @@ case "$PKG" in
     ;;
 esac
 
+# Markdown lint (optional, runs if available)
+MDLINT=""
+if command -v markdownlint-cli2 &>/dev/null; then
+  MDLINT="markdownlint-cli2"
+elif command -v markdownlint &>/dev/null; then
+  MDLINT="markdownlint"
+elif [ -f "$ROOT/node_modules/.bin/markdownlint-cli2" ]; then
+  MDLINT="$ROOT/node_modules/.bin/markdownlint-cli2"
+elif [ -f "$ROOT/node_modules/.bin/markdownlint" ]; then
+  MDLINT="$ROOT/node_modules/.bin/markdownlint"
+fi
+
 # Profile overrides (if profile.yaml exists)
 if [ -f "$ROOT/.anvil/profile.yaml" ]; then
   _ov() {
@@ -64,6 +76,7 @@ if [ -f "$ROOT/.anvil/profile.yaml" ]; then
   _ov "typecheck" TYPECHECK
   _ov "test" TEST
   _ov "build" BUILD
+  _ov "mdlint" MDLINT
 fi
 
-export ROOT PKG LINT FORMAT_CHECK FORMAT_WRITE TYPECHECK TEST BUILD
+export ROOT PKG LINT FORMAT_CHECK FORMAT_WRITE TYPECHECK TEST BUILD MDLINT

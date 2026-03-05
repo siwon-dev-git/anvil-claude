@@ -10,13 +10,13 @@ cd "$ROOT"
 
 echo "=== G1 Surface ==="
 
-echo "[1/3] Dependencies..."
+echo "[1/4] Dependencies..."
 $PKG install --frozen-lockfile 2>/dev/null || {
   echo "  lockfile out of sync, regenerating..."
   $PKG install
 }
 
-echo "[2/3] Format..."
+echo "[2/4] Format..."
 if $FORMAT_CHECK 2>/dev/null; then
   echo "  format clean"
 else
@@ -26,8 +26,20 @@ else
   echo "  format fixed"
 fi
 
-echo "[3/3] Lint auto-fix..."
+echo "[3/4] Lint auto-fix..."
 $LINT --fix 2>/dev/null || true
+
+echo "[4/4] Markdown lint..."
+if [ -n "$MDLINT" ]; then
+  if $MDLINT --fix "**/*.md" 2>/dev/null; then
+    echo "  markdown clean"
+  else
+    $MDLINT "**/*.md" 2>&1 | tail -10 || true
+    echo "  markdown issues (auto-fix applied where possible)"
+  fi
+else
+  echo "  skipped (markdownlint not found)"
+fi
 
 echo "=== G1 PASS ==="
 exit 0
