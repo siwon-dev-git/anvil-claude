@@ -5,15 +5,21 @@
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 [ -d "$ROOT/.anvil" ] || ROOT="$(pwd)"
 
-# Package manager
-if [ -f "$ROOT/pnpm-lock.yaml" ]; then PKG="pnpm"
-elif [ -f "$ROOT/bun.lockb" ] || [ -f "$ROOT/bun.lock" ]; then PKG="bun"
-elif [ -f "$ROOT/yarn.lock" ]; then PKG="yarn"
-elif [ -f "$ROOT/package-lock.json" ]; then PKG="npm"
-elif [ -f "$ROOT/go.mod" ]; then PKG="go"
-elif [ -f "$ROOT/pyproject.toml" ]; then PKG="uv"
-elif [ -f "$ROOT/Cargo.toml" ]; then PKG="cargo"
-else PKG="npm"; fi
+# Package manager: prefer profile.yaml, fallback to lock-file detection
+PKG=""
+if [ -f "$ROOT/.anvil/profile.yaml" ]; then
+  PKG=$(grep "^pkg:" "$ROOT/.anvil/profile.yaml" 2>/dev/null | sed 's/^pkg: *//' || true)
+fi
+if [ -z "$PKG" ]; then
+  if [ -f "$ROOT/pnpm-lock.yaml" ]; then PKG="pnpm"
+  elif [ -f "$ROOT/bun.lockb" ] || [ -f "$ROOT/bun.lock" ]; then PKG="bun"
+  elif [ -f "$ROOT/yarn.lock" ]; then PKG="yarn"
+  elif [ -f "$ROOT/package-lock.json" ]; then PKG="npm"
+  elif [ -f "$ROOT/go.mod" ]; then PKG="go"
+  elif [ -f "$ROOT/pyproject.toml" ]; then PKG="uv"
+  elif [ -f "$ROOT/Cargo.toml" ]; then PKG="cargo"
+  else PKG="unknown"; fi
+fi
 
 # Default commands by package manager
 case "$PKG" in
@@ -49,6 +55,14 @@ case "$PKG" in
     TEST="cargo test"
     BUILD="cargo build --release"
     ;;
+  *)
+    LINT="true"
+    FORMAT_CHECK="true"
+    FORMAT_WRITE="true"
+    TYPECHECK="true"
+    TEST="true"
+    BUILD="true"
+    ;;
 esac
 
 # Markdown lint (optional, runs if available)
@@ -67,7 +81,7 @@ fi
 if [ -f "$ROOT/.anvil/profile.yaml" ]; then
   _ov() {
     local val
-    val=$(grep "^  $1:" "$ROOT/.anvil/profile.yaml" 2>/dev/null | sed 's/^[^:]*: *//')
+    val=$(grep "^  $1:" "$ROOT/.anvil/profile.yaml" 2>/dev/null | sed 's/^[^:]*: *//' || true)
     [ -n "$val" ] && printf -v "$2" '%s' "$val" || true
   }
   _ov "lint" LINT
