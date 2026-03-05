@@ -16,7 +16,9 @@ First-time project setup. Creates `.anvil/` directory with governance files.
 
 1. Run `skills/init/scripts/detect-stack.sh` to identify package manager and tooling
 2. Run `skills/init/scripts/setup.sh` to scaffold `.anvil/` from templates
-3. Report created files
+3. Report created files and next steps
+4. Ask the user about their project's Terminal Goal and Hard Constraints
+5. Edit `.anvil/constitution.md` with the user's answers (replace HTML comments with actual content)
 
 ## What gets created
 

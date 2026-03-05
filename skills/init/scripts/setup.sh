@@ -48,4 +48,9 @@ cp "$PLUGIN_DIR/skills/gate-chain/templates/gates.yaml" "$ANVIL/checks/gates.yam
 CREATED=$(find "$ANVIL" -type f | wc -l | tr -d ' ')
 echo ""
 echo "=== Anvil Init Complete: $CREATED files created ==="
+echo ""
+echo "Next steps:"
+echo "  1. Edit .anvil/constitution.md — set your Terminal Goal and Hard Constraints"
+echo "  2. Run /anvil-claude:health to verify gate chain works"
+echo "  3. Start building with /anvil-claude:sprint <quest>"
 exit 0
