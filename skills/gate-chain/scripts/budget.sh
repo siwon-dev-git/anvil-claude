@@ -11,7 +11,7 @@ cd "$ROOT"
 echo "=== G3+ Budget ==="
 
 # Read budget from profile.yaml (default 512KB)
-BUDGET_KB=$(grep 'bundle:' "$ROOT/.anvil/profile.yaml" 2>/dev/null | grep -oE '[0-9]+' | head -1)
+BUDGET_KB=$(grep 'bundle_budget_kb:' "$ROOT/.anvil/profile.yaml" 2>/dev/null | grep -oE '[0-9]+' | head -1 || true)
 BUDGET_KB=${BUDGET_KB:-512}
 
 # Measure build output size

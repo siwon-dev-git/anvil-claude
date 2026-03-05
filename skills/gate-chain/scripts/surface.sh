@@ -11,10 +11,14 @@ cd "$ROOT"
 echo "=== G1 Surface ==="
 
 echo "[1/4] Dependencies..."
-$PKG install --frozen-lockfile 2>/dev/null || {
-  echo "  lockfile out of sync, regenerating..."
-  $PKG install
-}
+if [ "$PKG" = "unknown" ]; then
+  echo "  skipped (no package manager detected)"
+else
+  $PKG install --frozen-lockfile 2>/dev/null || {
+    echo "  lockfile out of sync, regenerating..."
+    $PKG install
+  }
+fi
 
 echo "[2/4] Format..."
 if $FORMAT_CHECK 2>/dev/null; then
