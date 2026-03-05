@@ -18,7 +18,7 @@ BUDGET_KB=${BUDGET_KB:-512}
 TOTAL=0
 case "$PKG" in
   pnpm|npm|yarn|bun)
-    for f in dist/assets/*.js dist/assets/*.css 2>/dev/null; do
+    for f in dist/assets/*.js dist/assets/*.css; do
       [ -f "$f" ] && TOTAL=$((TOTAL + $(wc -c < "$f")))
     done
     ;;
