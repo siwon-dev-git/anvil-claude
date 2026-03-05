@@ -40,7 +40,7 @@ print_summary() {
 run_gate 1 "Surface"  "surface.sh"
 run_gate 2 "Static"   "static.sh"
 run_gate 3 "Runtime"  "runtime.sh"
-run_gate 3 "Budget"   "budget.sh"    # G3+
+run_gate 4 "Budget"   "budget.sh"    # G3+
 run_gate 5 "CI"       "ci.sh"
 
 print_summary

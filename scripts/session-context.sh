@@ -15,14 +15,18 @@ fi
 
 # Active failure pattern count
 if [ -f "$ANVIL/failures/active.md" ]; then
-  COUNT=$(grep -c '^- \*\*' "$ANVIL/failures/active.md" 2>/dev/null || echo 0)
+  COUNT=$(grep -c '^- \*\*' "$ANVIL/failures/active.md" 2>/dev/null || true)
+  COUNT=${COUNT:-0}
+  COUNT=$(echo "$COUNT" | tr -d '[:space:]')
   [ "$COUNT" -gt 0 ] && PARTS="${PARTS:+$PARTS
 }Active failure patterns: $COUNT"
 fi
 
 # Active decision count
 if [ -f "$ANVIL/decisions/active.md" ]; then
-  COUNT=$(grep -c '^- \*\*' "$ANVIL/decisions/active.md" 2>/dev/null || echo 0)
+  COUNT=$(grep -c '^- \*\*' "$ANVIL/decisions/active.md" 2>/dev/null || true)
+  COUNT=${COUNT:-0}
+  COUNT=$(echo "$COUNT" | tr -d '[:space:]')
   [ "$COUNT" -gt 0 ] && PARTS="${PARTS:+$PARTS
 }Active decisions: $COUNT"
 fi

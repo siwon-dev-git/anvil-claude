@@ -64,14 +64,70 @@ echo "  framework: $FRAMEWORK"
 echo "  test: $TEST_RUNNER"
 echo "  lint: $LINTER"
 
+# Default commands by package manager
+CMD_LINT=""
+CMD_FORMAT_CHECK=""
+CMD_FORMAT=""
+CMD_TYPECHECK=""
+CMD_TEST=""
+CMD_BUILD=""
+
+case "$PKG" in
+  pnpm|npm|yarn|bun)
+    CMD_LINT="$PKG run lint"
+    CMD_FORMAT_CHECK="$PKG run format:check"
+    CMD_FORMAT="$PKG run format"
+    CMD_TYPECHECK="$PKG run typecheck"
+    CMD_TEST="$PKG run test:ci"
+    CMD_BUILD="$PKG run build"
+    ;;
+  go)
+    CMD_LINT="golangci-lint run"
+    CMD_FORMAT_CHECK="gofmt -l ."
+    CMD_FORMAT="gofmt -w ."
+    CMD_TYPECHECK="go vet ./..."
+    CMD_TEST="go test ./..."
+    CMD_BUILD="go build ./..."
+    ;;
+  uv)
+    CMD_LINT="uv run ruff check ."
+    CMD_FORMAT_CHECK="uv run ruff format --check ."
+    CMD_FORMAT="uv run ruff format ."
+    CMD_TYPECHECK="uv run mypy ."
+    CMD_TEST="uv run pytest"
+    CMD_BUILD="uv run python -m build"
+    ;;
+  cargo)
+    CMD_LINT="cargo clippy"
+    CMD_FORMAT_CHECK="cargo fmt --check"
+    CMD_FORMAT="cargo fmt"
+    CMD_TYPECHECK="cargo check"
+    CMD_TEST="cargo test"
+    CMD_BUILD="cargo build --release"
+    ;;
+esac
+
 # Output YAML
 cat << EOF
 ---
 # anvil profile (auto-detected)
-package_manager: $PKG
+stack: $PKG
+pkg: $PKG
 language: $LANG
 framework: $FRAMEWORK
 test_runner: $TEST_RUNNER
 linter: $LINTER
 bundle_budget_kb: 512
 EOF
+
+if [ -n "$CMD_LINT" ]; then
+cat << EOF
+commands:
+  lint: $CMD_LINT
+  format_check: $CMD_FORMAT_CHECK
+  format: $CMD_FORMAT
+  typecheck: $CMD_TYPECHECK
+  test: $CMD_TEST
+  build: $CMD_BUILD
+EOF
+fi

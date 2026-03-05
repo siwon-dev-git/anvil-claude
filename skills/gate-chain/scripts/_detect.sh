@@ -68,7 +68,7 @@ if [ -f "$ROOT/.anvil/profile.yaml" ]; then
   _ov() {
     local val
     val=$(grep "^  $1:" "$ROOT/.anvil/profile.yaml" 2>/dev/null | sed 's/^[^:]*: *//')
-    [ -n "$val" ] && printf -v "$2" '%s' "$val"
+    [ -n "$val" ] && printf -v "$2" '%s' "$val" || true
   }
   _ov "lint" LINT
   _ov "format_check" FORMAT_CHECK

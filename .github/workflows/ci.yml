@@ -1,0 +1,144 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Run shellcheck on all scripts
+        run: |
+          find . -name '*.sh' -not -path './node_modules/*' | while read -r script; do
+            echo "--- $script ---"
+            shellcheck -s bash -S warning "$script"
+          done
+
+  syntax-check:
+    name: Bash Syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify bash syntax for all scripts
+        run: |
+          FAIL=0
+          find . -name '*.sh' -not -path './node_modules/*' | while read -r script; do
+            if ! bash -n "$script" 2>&1; then
+              echo "FAIL: $script"
+              FAIL=1
+            fi
+          done
+          exit $FAIL
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for hardcoded secrets
+        run: |
+          PATTERN='(PRIVATE.KEY|SECRET|PASSWORD|TOKEN|API_KEY|AWS_ACCESS|aws_secret)\s*[:=]'
+          FOUND=$(grep -rnEI "$PATTERN" \
+            --include='*.sh' --include='*.yaml' --include='*.yml' --include='*.json' --include='*.md' \
+            . 2>/dev/null \
+            | grep -v '.github/' \
+            | grep -v 'node_modules/' \
+            | grep -v 'security-checks.md' \
+            | grep -v '\.example' \
+            | grep -v '\.sample' || true)
+          if [ -n "$FOUND" ]; then
+            echo "Potential secrets found:"
+            echo "$FOUND"
+            exit 1
+          fi
+          echo "No secrets found"
+
+      - name: Check for prohibited patterns (eval, --no-verify, --force)
+        run: |
+          FAIL=0
+          # eval usage in shell scripts
+          EVAL=$(grep -rnE '\beval\b' --include='*.sh' . 2>/dev/null | grep -v 'node_modules/' || true)
+          if [ -n "$EVAL" ]; then
+            echo "eval usage found (prohibited):"
+            echo "$EVAL"
+            FAIL=1
+          fi
+          # --no-verify / --force
+          BYPASS=$(grep -rnE '(--no-verify|--force)' --include='*.sh' . 2>/dev/null | grep -v 'gate-guard.sh' || true)
+          if [ -n "$BYPASS" ]; then
+            echo "Bypass flags found (prohibited):"
+            echo "$BYPASS"
+            FAIL=1
+          fi
+          exit $FAIL
+
+  structure:
+    name: Structure Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify all SKILL.md files exist
+        run: |
+          FAIL=0
+          for dir in skills/*/; do
+            if [ ! -f "${dir}SKILL.md" ]; then
+              echo "MISSING: ${dir}SKILL.md"
+              FAIL=1
+            fi
+          done
+          if [ $FAIL -eq 0 ]; then
+            echo "All SKILL.md files present"
+          fi
+          exit $FAIL
+
+      - name: Verify all scripts have shebang and are parseable
+        run: |
+          FAIL=0
+          find . -name '*.sh' -not -path './node_modules/*' | while read -r script; do
+            FIRST=$(head -1 "$script")
+            if [[ "$FIRST" != "#!/"* ]]; then
+              echo "MISSING shebang: $script"
+              FAIL=1
+            fi
+          done
+          exit $FAIL
+
+      - name: Verify CLAUDE.md references match existing skills
+        run: |
+          for dir in skills/*/; do
+            SKILL=$(basename "$dir")
+            if ! grep -q "$SKILL" CLAUDE.md; then
+              echo "WARNING: skill '$SKILL' not referenced in CLAUDE.md"
+            fi
+          done
+
+  markdownlint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint-cli2
+        run: npm install -g markdownlint-cli2
+
+      - name: Lint markdown files
+        run: markdownlint-cli2 "**/*.md" || true

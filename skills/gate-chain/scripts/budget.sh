@@ -23,7 +23,7 @@ case "$PKG" in
     done
     ;;
   go|cargo)
-    BIN=$(find . -maxdepth 2 -type f -perm +111 ! -path './node_modules/*' | head -1)
+    BIN=$(find . -maxdepth 2 -type f -perm /111 ! -path './node_modules/*' | head -1)
     [ -f "$BIN" ] && TOTAL=$(wc -c < "$BIN")
     ;;
   *)
