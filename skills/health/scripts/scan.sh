@@ -14,8 +14,8 @@ SCORE=0
 TOTAL=5
 
 check() {
-  local name="$1" cmd="$2"
-  if eval "$cmd" >/dev/null 2>&1; then
+  local name="$1"; shift
+  if "$@" >/dev/null 2>&1; then
     echo "  ✓ $name"
     SCORE=$((SCORE + 1))
   else
@@ -23,10 +23,10 @@ check() {
   fi
 }
 
-check "Lint"      "$LINT"
-check "Types"     "$TYPECHECK"
-check "Tests"     "$TEST"
-check "Build"     "$BUILD"
+check "Lint"      $LINT
+check "Types"     $TYPECHECK
+check "Tests"     $TEST
+check "Build"     $BUILD
 
 # Git status
 if [ -z "$(git status --porcelain 2>/dev/null)" ]; then

@@ -17,17 +17,17 @@ $PKG install --frozen-lockfile 2>/dev/null || {
 }
 
 echo "[2/3] Format..."
-if eval "$FORMAT_CHECK" 2>/dev/null; then
+if $FORMAT_CHECK 2>/dev/null; then
   echo "  format clean"
 else
   echo "  fixing format..."
-  eval "$FORMAT_WRITE"
-  eval "$FORMAT_CHECK" || { echo "  format still failing"; exit 1; }
+  $FORMAT_WRITE
+  $FORMAT_CHECK || { echo "  format still failing"; exit 1; }
   echo "  format fixed"
 fi
 
 echo "[3/3] Lint auto-fix..."
-eval "$LINT --fix" 2>/dev/null || true
+$LINT --fix 2>/dev/null || true
 
 echo "=== G1 PASS ==="
 exit 0

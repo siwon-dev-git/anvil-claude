@@ -12,7 +12,7 @@ echo "=== G3 Runtime ==="
 FAIL=0
 
 echo "[1/2] Test..."
-if eval "$TEST" 2>&1 | tail -30; then
+if $TEST 2>&1 | tail -30; then
   echo "  tests pass"
 else
   echo "  test failures"
@@ -20,7 +20,7 @@ else
 fi
 
 echo "[2/2] Build..."
-if eval "$BUILD" 2>&1 | tail -20; then
+if $BUILD 2>&1 | tail -20; then
   echo "  build success"
 else
   echo "  build failed"

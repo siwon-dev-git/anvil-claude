@@ -22,7 +22,7 @@ echo "  staged: $(echo "$STAGED" | wc -l | tr -d ' ') file(s)"
 FAIL=0
 
 echo "[1/2] Lint staged..."
-if eval "$LINT" 2>&1 | tail -10; then
+if $LINT 2>&1 | tail -10; then
   echo "  lint: clean"
 else
   echo "  lint: issues"
@@ -30,7 +30,7 @@ else
 fi
 
 echo "[2/2] Typecheck..."
-if eval "$TYPECHECK" 2>&1 | tail -10; then
+if $TYPECHECK 2>&1 | tail -10; then
   echo "  types: clean"
 else
   echo "  types: issues"

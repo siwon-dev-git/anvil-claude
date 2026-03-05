@@ -13,7 +13,7 @@ echo "=== Health Scan ==="
 ISSUES=0
 
 echo "[1/3] Lint..."
-if eval "$LINT" 2>&1 | tail -5; then
+if $LINT 2>&1 | tail -5; then
   echo "  lint: clean"
 else
   echo "  lint: issues found"
@@ -21,7 +21,7 @@ else
 fi
 
 echo "[2/3] Types..."
-if eval "$TYPECHECK" 2>&1 | tail -5; then
+if $TYPECHECK 2>&1 | tail -5; then
   echo "  types: clean"
 else
   echo "  types: issues found"
@@ -29,7 +29,7 @@ else
 fi
 
 echo "[3/3] Tests..."
-if eval "$TEST" 2>&1 | tail -5; then
+if $TEST 2>&1 | tail -5; then
   echo "  tests: passing"
 else
   echo "  tests: failures"
