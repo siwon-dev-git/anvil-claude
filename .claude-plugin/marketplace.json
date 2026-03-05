@@ -9,7 +9,7 @@
     {
       "name": "anvil-claude",
       "description": "AI-native project governance plugin. Constitution, Self-Model, ADR, FMEA, Gate Chain, Sprint, Structure, Commit, Research, Health.",
-      "version": "0.1.0",
+      "version": "0.0.1-alpha",
       "author": {
         "name": "siwon"
       },
@@ -25,5 +25,5 @@
       ]
     }
   ],
-  "version": "0.1.0"
+  "version": "0.0.1-alpha"
 }
