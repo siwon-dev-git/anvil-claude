@@ -1,0 +1,29 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "anvil",
+  "description": "AI-native project governance — Constitution, ADR, FMEA, Gate Chain, Sprint",
+  "owner": {
+    "name": "siwon"
+  },
+  "plugins": [
+    {
+      "name": "anvil-claude",
+      "description": "AI-native project governance plugin. Constitution, Self-Model, ADR, FMEA, Gate Chain, Sprint, Structure, Commit, Research, Health.",
+      "version": "0.1.0",
+      "author": {
+        "name": "siwon"
+      },
+      "source": "./",
+      "category": "productivity",
+      "tags": [
+        "governance",
+        "adr",
+        "fmea",
+        "gate-chain",
+        "sprint",
+        "quality"
+      ]
+    }
+  ],
+  "version": "0.1.0"
+}

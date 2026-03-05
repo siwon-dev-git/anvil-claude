@@ -1,0 +1,19 @@
+{
+  "name": "anvil-claude",
+  "version": "0.1.0",
+  "description": "AI-native project governance plugin for Claude Code",
+  "author": {
+    "name": "siwon"
+  },
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "governance",
+    "adr",
+    "fmea",
+    "gate-chain",
+    "sprint"
+  ],
+  "skills": "./skills/"
+}

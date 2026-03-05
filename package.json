@@ -1,0 +1,30 @@
+{
+  "name": "anvil-claude",
+  "version": "0.1.0",
+  "description": "AI-native project governance plugin for Claude Code. Constitution, ADR, FMEA, Gate Chain, Sprint.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siwon-dev-git/anvil-claude.git"
+  },
+  "files": [
+    "CLAUDE.md",
+    "hooks",
+    "scripts",
+    "skills",
+    "agents",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "claude-code",
+    "plugin",
+    "governance",
+    "adr",
+    "fmea",
+    "gate-chain",
+    "sprint",
+    "ai-native"
+  ]
+}
