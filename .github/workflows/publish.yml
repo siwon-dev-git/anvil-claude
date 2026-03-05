@@ -1,20 +1,54 @@
 name: Publish to npm
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
+    paths: ['package.json']
 
 jobs:
+  check-version:
+    name: Check Version
+    runs-on: ubuntu-latest
+    outputs:
+      should_publish: ${{ steps.check.outputs.should_publish }}
+      version: ${{ steps.check.outputs.version }}
+      npm_tag: ${{ steps.check.outputs.npm_tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check if version changed
+        id: check
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          NPM_VERSION=$(npm view anvil-claude version 2>/dev/null || echo "0.0.0")
+          echo "Local: $PKG_VERSION, npm: $NPM_VERSION"
+          if [ "$PKG_VERSION" = "$NPM_VERSION" ]; then
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "Version unchanged, skip publish"
+          else
+            echo "should_publish=true" >> "$GITHUB_OUTPUT"
+            echo "version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
+            if echo "$PKG_VERSION" | grep -qE '(alpha|beta|rc|next|canary)'; then
+              echo "npm_tag=$(echo "$PKG_VERSION" | grep -oE '(alpha|beta|rc|next|canary)')" >> "$GITHUB_OUTPUT"
+            else
+              echo "npm_tag=latest" >> "$GITHUB_OUTPUT"
+            fi
+            echo "New version detected: $PKG_VERSION"
+          fi
+
   ci:
     name: CI Gates
+    needs: check-version
+    if: needs.check-version.outputs.should_publish == 'true'
     uses: ./.github/workflows/ci.yml
 
   publish:
     name: Publish
-    needs: ci
+    needs: [check-version, ci]
+    if: needs.check-version.outputs.should_publish == 'true'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write
     environment:
       name: npm
@@ -27,27 +61,18 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Verify version matches release tag
-        run: |
-          PKG_VERSION=$(node -p "require('./package.json').version")
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
-            echo "Version mismatch: package.json=$PKG_VERSION, tag=$TAG_VERSION"
-            exit 1
-          fi
-          echo "Version verified: $PKG_VERSION"
-
-      - name: Determine npm tag
-        id: tag
-        run: |
-          PKG_VERSION=$(node -p "require('./package.json').version")
-          if echo "$PKG_VERSION" | grep -qE '(alpha|beta|rc|next|canary)'; then
-            NPM_TAG=$(echo "$PKG_VERSION" | grep -oE '(alpha|beta|rc|next|canary)')
-          else
-            NPM_TAG="latest"
-          fi
-          echo "npm_tag=$NPM_TAG" >> "$GITHUB_OUTPUT"
-          echo "Publishing with tag: $NPM_TAG"
-
       - name: Publish to npm
-        run: npm publish --provenance --access public --tag ${{ steps.tag.outputs.npm_tag }}
+        run: |
+          echo "Publishing v${{ needs.check-version.outputs.version }} with tag ${{ needs.check-version.outputs.npm_tag }}"
+          npm publish --provenance --access public --tag ${{ needs.check-version.outputs.npm_tag }}
+
+      - name: Create GitHub Release
+        run: |
+          VERSION="${{ needs.check-version.outputs.version }}"
+          PRERELEASE=""
+          if echo "$VERSION" | grep -qE '(alpha|beta|rc|next|canary)'; then
+            PRERELEASE="--prerelease"
+          fi
+          gh release create "v${VERSION}" --target main --title "v${VERSION}" $PRERELEASE --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
