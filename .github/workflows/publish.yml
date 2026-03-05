@@ -35,5 +35,17 @@ jobs:
           fi
           echo "Version verified: $PKG_VERSION"
 
+      - name: Determine npm tag
+        id: tag
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if echo "$PKG_VERSION" | grep -qE '(alpha|beta|rc|next|canary)'; then
+            NPM_TAG=$(echo "$PKG_VERSION" | grep -oE '(alpha|beta|rc|next|canary)')
+          else
+            NPM_TAG="latest"
+          fi
+          echo "npm_tag=$NPM_TAG" >> "$GITHUB_OUTPUT"
+          echo "Publishing with tag: $NPM_TAG"
+
       - name: Publish to npm
-        run: npm publish --provenance --access public
+        run: npm publish --provenance --access public --tag ${{ steps.tag.outputs.npm_tag }}
