@@ -69,6 +69,6 @@ jobs:
           if echo "$VERSION" | grep -qE '(alpha|beta|rc|next|canary)'; then
             PRERELEASE="--prerelease"
           fi
-          gh release create "v${VERSION}" --target main --title "v${VERSION}" $PRERELEASE --generate-notes
+          gh release create "v${VERSION}" --target main --title "v${VERSION}" $PRERELEASE --generate-notes || echo "Release already exists, skipping"
         env:
           GH_TOKEN: ${{ github.token }}
