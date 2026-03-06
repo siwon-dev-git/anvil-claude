@@ -28,11 +28,7 @@ jobs:
           else
             echo "should_publish=true" >> "$GITHUB_OUTPUT"
             echo "version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
-            if echo "$PKG_VERSION" | grep -qE '(alpha|beta|rc|next|canary)'; then
-              echo "npm_tag=$(echo "$PKG_VERSION" | grep -oE '(alpha|beta|rc|next|canary)')" >> "$GITHUB_OUTPUT"
-            else
-              echo "npm_tag=latest" >> "$GITHUB_OUTPUT"
-            fi
+            echo "npm_tag=latest" >> "$GITHUB_OUTPUT"
             echo "New version detected: $PKG_VERSION"
           fi
 
