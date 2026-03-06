@@ -1,21 +1,24 @@
-# anvil-claude
+# Anvil
 
-AI-native project governance plugin for Claude Code.
+**Execution Intelligence for AI Agents**
 
-AI coding assistants are powerful but lack structured quality assurance. Anvil adds governance guardrails — constitution, quality gates, failure tracking, architecture decisions — so AI-assisted development produces reliable, auditable results.
+AI agents can generate code.
+But they can't explain why your build just broke.
+Anvil can.
 
-## Features
+## What It Does
 
-- **Constitution** — Immutable trust anchor. Hard constraints only the human owner may modify
-- **Self-Model** — Mutable project identity reflecting current capabilities and state
-- **ADR** — Architecture Decision Records with rationale tracking
-- **FMEA** — Failure Mode & Effects Analysis to prevent recurrence
-- **Gate Chain** — Sequential quality gates with script-based pass/fail
-- **Sprint** — Build cycle (11 steps + 6 gates) and Heal cycle
-- **Structure** — Code structure classification and audit (Tier 0-3)
-- **Commit** — Commit convention enforcement and PR workflow
-- **Research** — Evidence-based research with falsification
-- **Health** — Quick project health scan
+- **Constitution** — Immutable trust anchor. Rules only humans can change
+- **Gate Chain** — Script-based quality gates. Exit code = verdict
+- **Heritage** — ADR + FMEA. Your project remembers decisions and failures
+- **Trace** — Capture what the agent actually did (v0.1.0)
+- **Insight** — Explain why things broke (v0.1.0)
+
+## The Core Loop
+
+```
+run → observe → understand → improve → run
+```
 
 ## Install
 
@@ -23,15 +26,15 @@ AI coding assistants are powerful but lack structured quality assurance. Anvil a
 claude plugin add anvil-claude
 ```
 
-## Usage
-
-After installing, initialize governance in your project:
+## Quick Start
 
 ```
 /anvil-claude:init
 ```
 
-This creates the `.anvil/` directory with governance files. Then use skills:
+This creates the `.anvil/` directory with governance files, then guides you through setting up your project's constitution.
+
+## Skills
 
 | Skill | Command | Purpose |
 |-------|---------|---------|
@@ -47,6 +50,8 @@ This creates the `.anvil/` directory with governance files. Then use skills:
 | Commit | `/anvil-claude:commit` | Commit with conventions |
 | Research | `/anvil-claude:research` | Evidence-based research |
 | Health | `/anvil-claude:health` | Quick project scan |
+| Trace | `/anvil-claude:trace` | Execution trace capture |
+| Insight | `/anvil-claude:insight` | Failure analysis |
 
 ## How It Works
 
@@ -59,6 +64,12 @@ User input → skill-detector.sh → matches trigger → loads SKILL.md as conte
 2. **Scripts** (`scripts/*.sh`) — detect triggers, inject context, guard constraints
 3. **Skills** (`skills/*/SKILL.md`) — instructions the AI follows for each capability
 4. **Gate scripts** (`skills/*/scripts/*.sh`) — executable checks with exit 0/1
+
+## Philosophy
+
+1. **Environment is intelligence** — the quality of the substrate determines the capability of the agent
+2. **Design physics, not control** — design environments, not commands
+3. **Success is becoming unnecessary** — as trust accumulates, intervention decreases
 
 ## License
 

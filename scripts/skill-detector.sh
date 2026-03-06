@@ -28,5 +28,7 @@ match "/structure"          "anvil-claude:structure"
 match "/commit"             "anvil-claude:commit"
 match "/research"           "anvil-claude:research"
 match "/health"             "anvil-claude:health"
+match "/trace"              "anvil-claude:trace"
+match "/insight"            "anvil-claude:insight"
 
 echo "Success"

@@ -11,10 +11,10 @@ cd "$ROOT"
 echo "=== G1 Surface ==="
 
 echo "[1/4] Dependencies..."
-if [ "$PKG" = "unknown" ]; then
-  echo "  skipped (no package manager detected)"
+if [ -z "$INSTALL" ]; then
+  echo "  skipped (no install command for $PKG)"
 else
-  $PKG install --frozen-lockfile 2>/dev/null || {
+  $INSTALL 2>/dev/null || {
     echo "  lockfile out of sync, regenerating..."
     $PKG install
   }

@@ -43,6 +43,8 @@ Available when `.anvil/` exists in the project root.
 | `/anvil-claude:commit` | "commit" | Commit convention + PR workflow |
 | `/anvil-claude:research` | "research" | Evidence-based research with falsification |
 | `/anvil-claude:health` | "health" | Quick health scan |
+| `/anvil-claude:trace` | "trace", "inspect" | Execution trace capture |
+| `/anvil-claude:insight` | "insight", "explain", "why" | Failure analysis |
 
 ## How It Works
 
@@ -71,6 +73,7 @@ PostToolUse:Edit/Write → diagnostic-reminder.sh → check IDE diagnostics
 ├── checks/
 │   ├── gates.yaml       <- Gate definitions
 │   └── *.sh             <- Gate scripts (exit 0/1)
+├── traces/              <- Execution trace records
 └── profile.yaml         <- Project configuration (stack, commands)
 ```
 

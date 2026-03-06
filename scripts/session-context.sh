@@ -31,6 +31,13 @@ if [ -f "$ANVIL/decisions/active.md" ]; then
 }Active decisions: $COUNT"
 fi
 
+# Active trace
+if [ -f "$ANVIL/traces/.active" ]; then
+  TRACE_ID=$(basename "$(cat "$ANVIL/traces/.active")" .md)
+  PARTS="${PARTS:+$PARTS
+}Active trace: $TRACE_ID"
+fi
+
 # Current gate state
 if [ -f "$ANVIL/checks/.current-gate" ]; then
   GATE=$(cat "$ANVIL/checks/.current-gate" | tr -d '[:space:]')

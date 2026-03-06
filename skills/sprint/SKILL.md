@@ -15,6 +15,7 @@ Quest = one-sentence goal. 11 steps, 6 gates.
 ### Phase 1: Prepare (Steps 1-3)
 
 1. **Understand** — Read quest. Load `.anvil/self-model.md`, recent decisions, active failures.
+   - Run `trace start` to begin execution trace capture.
    - Read `reference/build.md` for full step details.
 
 2. **Scan** — Map affected files. Identify blast radius.
@@ -31,13 +32,15 @@ Quest = one-sentence goal. 11 steps, 6 gates.
 
 7. **Test** — Write/update tests for changed code.
 
-8. **G3 Runtime** — Run `gate-chain` G3 (test + build). Fix until pass.
+8. **G3 Runtime** — Run `gate-chain` G3 (test + build). Fix until pass. On gate failure, use `insight` skill for root cause analysis.
 
 ### Phase 3: Ship (Steps 9-11)
 
 9. **G3+ Budget** — Run `gate-chain` G3+ (bundle/binary size check).
 
 10. **G4 Review** — Self-review diff. Check against quest. Record ADR if architectural.
+    - Run `trace stop` to finalize execution trace.
+    - Run `self-model auto-update` to refresh heritage counts.
 
 11. **G5 CI** — Push and watch CI (if configured).
 

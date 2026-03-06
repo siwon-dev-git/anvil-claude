@@ -18,32 +18,35 @@ if [ -d "$ANVIL" ]; then
 fi
 
 # Create directories
-mkdir -p "$ANVIL/decisions" "$ANVIL/failures" "$ANVIL/structure" "$ANVIL/checks"
+mkdir -p "$ANVIL/decisions" "$ANVIL/failures" "$ANVIL/structure" "$ANVIL/checks" "$ANVIL/traces"
 
 # Detect stack and write profile
-echo "[1/7] Detecting stack..."
+echo "[1/8] Detecting stack..."
 bash "$SCRIPT_DIR/detect-stack.sh" "$ROOT" | grep -A 100 '^---' > "$ANVIL/profile.yaml"
 
 # Copy templates
-echo "[2/7] Constitution..."
+echo "[2/8] Constitution..."
 cp "$PLUGIN_DIR/skills/constitution/templates/constitution.md" "$ANVIL/constitution.md"
 
-echo "[3/7] Self-model..."
+echo "[3/8] Self-model..."
 cp "$PLUGIN_DIR/skills/self-model/templates/self-model.md" "$ANVIL/self-model.md"
 
-echo "[4/7] Decisions..."
+echo "[4/8] Decisions..."
 cp "$PLUGIN_DIR/skills/adr/templates/decisions.md" "$ANVIL/decisions/active.md"
 echo "# Archived Decisions" > "$ANVIL/decisions/archived.md"
 
-echo "[5/7] Failures..."
+echo "[5/8] Failures..."
 cp "$PLUGIN_DIR/skills/fmea/templates/failures.md" "$ANVIL/failures/active.md"
 cp "$PLUGIN_DIR/skills/fmea/templates/archived.md" "$ANVIL/failures/archived.md"
 
-echo "[6/7] Structure..."
+echo "[6/8] Structure..."
 cp "$PLUGIN_DIR/skills/structure/templates/tiers.md" "$ANVIL/structure/tiers.md"
 
-echo "[7/7] Gates..."
+echo "[7/8] Gates..."
 cp "$PLUGIN_DIR/skills/gate-chain/templates/gates.yaml" "$ANVIL/checks/gates.yaml"
+
+echo "[8/8] Traces..."
+mkdir -p "$ANVIL/traces"
 
 CREATED=$(find "$ANVIL" -type f | wc -l | tr -d ' ')
 echo ""
