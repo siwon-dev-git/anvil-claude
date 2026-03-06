@@ -120,6 +120,7 @@ esac
 cat << EOF
 ---
 # anvil profile (auto-detected)
+locale: en
 stack: $PKG
 pkg: $PKG
 language: $LANG

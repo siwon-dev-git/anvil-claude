@@ -5,7 +5,14 @@ ROOT="$(pwd)"
 ANVIL="$ROOT/.anvil"
 [ -d "$ANVIL" ] || { echo "Success"; exit 0; }
 
+# Load locale
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/locale/_load.sh" "$ROOT"
+
 PARTS=""
+
+# Preferred language
+PARTS="$L_SESSION_LANG"
 
 # Project status from self-model
 if [ -f "$ANVIL/self-model.md" ]; then
@@ -19,7 +26,7 @@ if [ -f "$ANVIL/failures/active.md" ]; then
   COUNT=${COUNT:-0}
   COUNT=$(echo "$COUNT" | tr -d '[:space:]')
   [ "$COUNT" -gt 0 ] && PARTS="${PARTS:+$PARTS
-}Active failure patterns: $COUNT"
+}$L_SESSION_FAILURES: $COUNT"
 fi
 
 # Active decision count
@@ -28,7 +35,7 @@ if [ -f "$ANVIL/decisions/active.md" ]; then
   COUNT=${COUNT:-0}
   COUNT=$(echo "$COUNT" | tr -d '[:space:]')
   [ "$COUNT" -gt 0 ] && PARTS="${PARTS:+$PARTS
-}Active decisions: $COUNT"
+}$L_SESSION_DECISIONS: $COUNT"
 fi
 
 # Active guard rules
@@ -37,21 +44,21 @@ if [ -f "$ANVIL/checks/guards.md" ]; then
   GUARD_COUNT=${GUARD_COUNT:-0}
   GUARD_COUNT=$(echo "$GUARD_COUNT" | tr -d '[:space:]')
   [ "$GUARD_COUNT" -gt 0 ] && PARTS="${PARTS:+$PARTS
-}Active guards: $GUARD_COUNT"
+}$L_SESSION_GUARDS: $GUARD_COUNT"
 fi
 
 # Active trace
 if [ -f "$ANVIL/traces/.active" ]; then
   TRACE_ID=$(basename "$(cat "$ANVIL/traces/.active")" .md)
   PARTS="${PARTS:+$PARTS
-}Active trace: $TRACE_ID"
+}$L_SESSION_TRACE: $TRACE_ID"
 fi
 
 # Current gate state
 if [ -f "$ANVIL/checks/.current-gate" ]; then
   GATE=$(cat "$ANVIL/checks/.current-gate" | tr -d '[:space:]')
   [ -n "$GATE" ] && PARTS="${PARTS:+$PARTS
-}Current gate: $GATE"
+}$L_SESSION_GATE: $GATE"
 fi
 
 if [ -n "$PARTS" ]; then

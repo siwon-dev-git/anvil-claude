@@ -17,12 +17,15 @@ First-time project setup. Creates `.anvil/` directory with governance files.
 1. Run `skills/init/scripts/detect-stack.sh` to identify package manager and tooling
 2. Run `skills/init/scripts/setup.sh` to scaffold `.anvil/` from templates
 3. Report created files and next steps
-4. Ask the user 3 questions to fill constitution:
+4. Ask the user preferred language: "Which language should Anvil use? (en / ko)" — default: en
+   - Write the answer as `locale: en` or `locale: ko` into `.anvil/profile.yaml`
+   - This affects all CLI output (monitor, gates, session context) and agent responses
+5. Ask the user 3 questions to fill constitution:
    a. "What is this project's ultimate goal (Terminal Goal)?" — e.g. "Build the fastest static site generator", "Provide reliable payment processing" → ## Terminal Goal
    b. "What rules must never be violated (Hard Constraints)?" — give 3 examples: "No direct DB access from UI layer", "All API changes must be backward-compatible", "Never store plaintext passwords" → ## Hard Constraints
    c. "What principles should be followed when possible (Soft Constraints)?" — e.g. "Prefer composition over inheritance", "Keep functions under 30 lines", "Write tests before implementation" → ## Soft Constraints
-5. Write answers into `.anvil/constitution.md` (replace HTML comments with actual content)
-6. Generate checksum: `shasum -a 256 .anvil/constitution.md > .anvil/.constitution.sha256`
+6. Write answers into `.anvil/constitution.md` (replace HTML comments with actual content)
+7. Generate checksum: `shasum -a 256 .anvil/constitution.md > .anvil/.constitution.sha256`
 
 ## What gets created
 

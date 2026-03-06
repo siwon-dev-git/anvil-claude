@@ -13,10 +13,10 @@ Anvil can.
 - **Heritage** — ADR + FMEA. Your project remembers decisions and failures
 - **Trace** — Capture what the agent actually did
 - **Insight** — Explain why things broke
-- **Pattern** — Compress recurring failures into rules (v0.2.0)
-- **Guard** — Learned rules applied at runtime (v0.3.0)
-- **Sandbox** — Isolated execution environments (v0.4.0)
-- **Replay** — Reproduce and compare past executions (v0.4.0)
+- **Pattern** — Compress recurring failures into rules
+- **Guard** — Learned rules applied at runtime
+- **Sandbox** — Isolated execution environments
+- **Replay** — Reproduce and compare past executions
 
 ## The Core Loop
 
