@@ -1,7 +1,7 @@
 ---
 name: sprint
 trigger: sprint|build|maintain|heal
-description: Build cycle (11 steps + 6 gates) or Heal cycle (sense-decide-execute-learn)
+description: Build cycle (12 steps + 7 gates) or Heal cycle (sense-decide-execute-learn)
 ---
 
 # Sprint
@@ -15,6 +15,7 @@ Quest = one-sentence goal. 12 steps, 7 gates.
 ### Phase 1: Prepare (Steps 1-3)
 
 1. **Understand** — Read quest. Load `.anvil/self-model.md`, recent decisions, active failures.
+   - Run `bash scripts/monitor.sh` for project state overview.
    - Run `trace start` to begin execution trace capture.
    - Read `reference/build.md` for full step details.
 

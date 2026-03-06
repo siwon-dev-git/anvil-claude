@@ -37,7 +37,7 @@ Available when `.anvil/` exists in the project root.
 | `/anvil-claude:adr` | "adr", "decision" | Architecture Decision Records |
 | `/anvil-claude:fmea` | "fmea", "failure" | Failure Mode & Effects Analysis |
 | `/anvil-claude:gate-chain` | "gate", "check" | Sequential quality gates |
-| `/anvil-claude:sprint <quest>` | "sprint", "build" | Build cycle (11 steps + 6 gates) |
+| `/anvil-claude:sprint <quest>` | "sprint", "build" | Build cycle (12 steps + 7 gates) |
 | `/anvil-claude:sprint` | "maintain", "heal" | Heal cycle (sense-decide-execute-learn) |
 | `/anvil-claude:structure` | "structure", "tier" | Code structure classification |
 | `/anvil-claude:commit` | "commit" | Commit convention + PR workflow |
@@ -88,6 +88,7 @@ PostToolUse:Edit/Write → diagnostic-reminder.sh → check IDE diagnostics
 Stack detection auto-generates this. Override tool commands here:
 
 ```yaml
+locale: ko
 stack: node
 pkg: pnpm
 commands:
