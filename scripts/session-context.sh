@@ -17,7 +17,8 @@ PARTS="$L_SESSION_LANG"
 # Project status from self-model
 if [ -f "$ANVIL/self-model.md" ]; then
   STATE=$(sed -n '/^## Current State/,/^## /{ /^## Current State/d; /^## /d; p; }' "$ANVIL/self-model.md" | head -5 | sed '/^$/d')
-  [ -n "$STATE" ] && PARTS="[Anvil] $STATE"
+  [ -n "$STATE" ] && PARTS="${PARTS:+$PARTS
+}[Anvil] $STATE"
 fi
 
 # Active failure pattern count
