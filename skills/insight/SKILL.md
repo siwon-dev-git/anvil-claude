@@ -38,9 +38,11 @@ $ARGUMENTS
    - If pattern is recurring, suggest FMEA entry
    - If architectural, suggest ADR entry
 
-5. **Record** (optional, ask user)
+5. **Auto-record**
    - Write insight to trace activity log
-   - If user approves, create FMEA entry via `/anvil-claude:fmea`
+   - **Auto-FMEA:** If failure matches a category, automatically add to `.anvil/failures/active.md` with category tag. Ask user for confirmation only if uncertain.
+   - **Auto-ADR:** If the fix involves an architectural change (new package, pattern change, API redesign), automatically record in `.anvil/decisions/active.md`.
+   - Update heritage counts via `self-model auto-update`
 
 ## Output Format
 

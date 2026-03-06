@@ -45,6 +45,10 @@ Available when `.anvil/` exists in the project root.
 | `/anvil-claude:health` | "health" | Quick health scan |
 | `/anvil-claude:trace` | "trace", "inspect" | Execution trace capture |
 | `/anvil-claude:insight` | "insight", "explain", "why" | Failure analysis |
+| `/anvil-claude:pattern` | "pattern", "learn", "cluster" | Failure pattern detection |
+| `/anvil-claude:guard` | "guard", "enforce", "protect" | Adaptive runtime guardrails |
+| `/anvil-claude:sandbox` | "sandbox", "isolate" | Isolated execution environment |
+| `/anvil-claude:replay` | "replay", "reproduce" | Execution replay & comparison |
 
 ## How It Works
 
@@ -72,8 +76,10 @@ PostToolUse:Edit/Write → diagnostic-reminder.sh → check IDE diagnostics
 │   └── tiers.md         <- Tier classification rules
 ├── checks/
 │   ├── gates.yaml       <- Gate definitions
+│   ├── guards.md        <- Adaptive guard rules
 │   └── *.sh             <- Gate scripts (exit 0/1)
 ├── traces/              <- Execution trace records
+├── sandboxes/           <- Isolated worktrees (Phase 4)
 └── profile.yaml         <- Project configuration (stack, commands)
 ```
 

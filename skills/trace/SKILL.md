@@ -19,25 +19,24 @@ $ARGUMENTS
 
 ### `trace start`
 
-1. Ensure `.anvil/traces/` exists (`mkdir -p`)
-2. Capture baseline: `git rev-parse HEAD` -> store as `baseline_commit`
-3. Generate trace ID: `YYYY-MM-DD-HHMMSS` (from `date +%Y-%m-%d-%H%M%S`)
-4. Create trace file from `templates/trace-log.md` at `.anvil/traces/<trace_id>.md`
-5. Fill in: trace ID, baseline commit, start timestamp
-6. Write trace file path to `.anvil/traces/.active`
-7. Report: "Trace started: <trace_id>"
+Run: `bash scripts/trace-start.sh`
+
+The script:
+1. Ensures `.anvil/traces/` exists
+2. Captures baseline: `git rev-parse HEAD`
+3. Generates trace ID: `YYYY-MM-DD-HHMMSS`
+4. Creates trace file from template
+5. Writes trace file path to `.anvil/traces/.active`
 
 ### `trace stop`
 
-1. Read `.anvil/traces/.active` to find active trace file
-2. If no active trace, report error and exit
-3. Capture end state:
-   - `git rev-parse HEAD` -> end commit
-   - `git diff <baseline>..HEAD --stat` -> changed files summary
-   - `git log <baseline>..HEAD --oneline` -> commit log
-4. Append results to the trace file (## Results section)
-5. Delete `.anvil/traces/.active`
-6. Report: "Trace stopped: <trace_id> — N files changed, M commits"
+Run: `bash scripts/trace-stop.sh`
+
+The script:
+1. Reads `.anvil/traces/.active` to find active trace
+2. Captures end state: `git diff`, `git log`, commit count
+3. Writes results into the trace file
+4. Updates status to `completed`, removes `.active` marker
 
 ### `trace inspect [run_id]`
 

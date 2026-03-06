@@ -27,6 +27,8 @@
     "ai-native",
     "execution-intelligence",
     "trace",
-    "failure-analysis"
+    "failure-analysis",
+    "pattern-learning",
+    "runtime-guardrails"
   ]
 }

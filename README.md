@@ -11,8 +11,12 @@ Anvil can.
 - **Constitution** — Immutable trust anchor. Rules only humans can change
 - **Gate Chain** — Script-based quality gates. Exit code = verdict
 - **Heritage** — ADR + FMEA. Your project remembers decisions and failures
-- **Trace** — Capture what the agent actually did (v0.1.0)
-- **Insight** — Explain why things broke (v0.1.0)
+- **Trace** — Capture what the agent actually did
+- **Insight** — Explain why things broke
+- **Pattern** — Compress recurring failures into rules (v0.2.0)
+- **Guard** — Learned rules applied at runtime (v0.3.0)
+- **Sandbox** — Isolated execution environments (v0.4.0)
+- **Replay** — Reproduce and compare past executions (v0.4.0)
 
 ## The Core Loop
 
@@ -52,6 +56,10 @@ This creates the `.anvil/` directory with governance files, then guides you thro
 | Health | `/anvil-claude:health` | Quick project scan |
 | Trace | `/anvil-claude:trace` | Execution trace capture |
 | Insight | `/anvil-claude:insight` | Failure analysis |
+| Pattern | `/anvil-claude:pattern` | Failure pattern detection |
+| Guard | `/anvil-claude:guard` | Adaptive runtime guardrails |
+| Sandbox | `/anvil-claude:sandbox` | Isolated execution |
+| Replay | `/anvil-claude:replay` | Execution replay |
 
 ## How It Works
 
