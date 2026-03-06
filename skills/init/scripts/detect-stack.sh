@@ -41,12 +41,21 @@ if [ -f "package.json" ]; then
   fi
 fi
 
-# Test runner
+# Test runner (config files first, then devDependencies)
 TEST_RUNNER="none"
-if [ -f "vitest.config.ts" ] || [ -f "vitest.config.js" ]; then TEST_RUNNER="vitest"
-elif [ -f "jest.config.ts" ] || [ -f "jest.config.js" ]; then TEST_RUNNER="jest"
+if [ -f "vitest.config.ts" ] || [ -f "vitest.config.js" ] || [ -f "vitest.config.mts" ]; then TEST_RUNNER="vitest"
+elif [ -f "jest.config.ts" ] || [ -f "jest.config.js" ] || [ -f "jest.config.mjs" ]; then TEST_RUNNER="jest"
+elif [ -f "playwright.config.ts" ] || [ -f "playwright.config.js" ]; then TEST_RUNNER="playwright"
 elif grep -q '"mocha"' package.json 2>/dev/null; then TEST_RUNNER="mocha"
 elif [ -f "pytest.ini" ] || [ -f "pyproject.toml" ]; then TEST_RUNNER="pytest"
+fi
+# Fallback: check devDependencies if no config file found
+if [ "$TEST_RUNNER" = "none" ] && [ -f "package.json" ]; then
+  if grep -q '"vitest"' package.json 2>/dev/null; then TEST_RUNNER="vitest"
+  elif grep -q '"jest"' package.json 2>/dev/null; then TEST_RUNNER="jest"
+  elif grep -q '"playwright"' package.json 2>/dev/null; then TEST_RUNNER="playwright"
+  elif grep -q '"mocha"' package.json 2>/dev/null; then TEST_RUNNER="mocha"
+  fi
 fi
 
 # Linter
