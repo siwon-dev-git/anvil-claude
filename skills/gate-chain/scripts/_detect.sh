@@ -23,7 +23,35 @@ fi
 
 # Default commands by package manager
 case "$PKG" in
-  pnpm|npm|yarn|bun)
+  pnpm)
+    INSTALL="pnpm install --frozen-lockfile"
+    LINT="$PKG run lint"
+    FORMAT_CHECK="$PKG run format:check"
+    FORMAT_WRITE="$PKG run format"
+    TYPECHECK="$PKG run typecheck"
+    TEST="$PKG run test:ci"
+    BUILD="$PKG run build"
+    ;;
+  npm)
+    INSTALL="npm ci"
+    LINT="$PKG run lint"
+    FORMAT_CHECK="$PKG run format:check"
+    FORMAT_WRITE="$PKG run format"
+    TYPECHECK="$PKG run typecheck"
+    TEST="$PKG run test:ci"
+    BUILD="$PKG run build"
+    ;;
+  yarn)
+    INSTALL="yarn install --frozen-lockfile"
+    LINT="$PKG run lint"
+    FORMAT_CHECK="$PKG run format:check"
+    FORMAT_WRITE="$PKG run format"
+    TYPECHECK="$PKG run typecheck"
+    TEST="$PKG run test:ci"
+    BUILD="$PKG run build"
+    ;;
+  bun)
+    INSTALL="bun install --frozen"
     LINT="$PKG run lint"
     FORMAT_CHECK="$PKG run format:check"
     FORMAT_WRITE="$PKG run format"
@@ -32,6 +60,7 @@ case "$PKG" in
     BUILD="$PKG run build"
     ;;
   go)
+    INSTALL="go mod download"
     LINT="golangci-lint run"
     FORMAT_CHECK="gofmt -l ."
     FORMAT_WRITE="gofmt -w ."
@@ -40,6 +69,7 @@ case "$PKG" in
     BUILD="go build ./..."
     ;;
   uv)
+    INSTALL="uv sync --frozen"
     LINT="uv run ruff check ."
     FORMAT_CHECK="uv run ruff format --check ."
     FORMAT_WRITE="uv run ruff format ."
@@ -48,6 +78,7 @@ case "$PKG" in
     BUILD="uv run python -m build"
     ;;
   cargo)
+    INSTALL=""
     LINT="cargo clippy"
     FORMAT_CHECK="cargo fmt --check"
     FORMAT_WRITE="cargo fmt"
@@ -56,6 +87,7 @@ case "$PKG" in
     BUILD="cargo build --release"
     ;;
   *)
+    INSTALL=""
     LINT="true"
     FORMAT_CHECK="true"
     FORMAT_WRITE="true"
@@ -93,4 +125,4 @@ if [ -f "$ROOT/.anvil/profile.yaml" ]; then
   _ov "mdlint" MDLINT
 fi
 
-export ROOT PKG LINT FORMAT_CHECK FORMAT_WRITE TYPECHECK TEST BUILD MDLINT
+export ROOT PKG INSTALL LINT FORMAT_CHECK FORMAT_WRITE TYPECHECK TEST BUILD MDLINT

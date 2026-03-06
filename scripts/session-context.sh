@@ -31,6 +31,22 @@ if [ -f "$ANVIL/decisions/active.md" ]; then
 }Active decisions: $COUNT"
 fi
 
+# Active guard rules
+if [ -f "$ANVIL/checks/guards.md" ]; then
+  GUARD_COUNT=$(grep -c '^## G-' "$ANVIL/checks/guards.md" 2>/dev/null || true)
+  GUARD_COUNT=${GUARD_COUNT:-0}
+  GUARD_COUNT=$(echo "$GUARD_COUNT" | tr -d '[:space:]')
+  [ "$GUARD_COUNT" -gt 0 ] && PARTS="${PARTS:+$PARTS
+}Active guards: $GUARD_COUNT"
+fi
+
+# Active trace
+if [ -f "$ANVIL/traces/.active" ]; then
+  TRACE_ID=$(basename "$(cat "$ANVIL/traces/.active")" .md)
+  PARTS="${PARTS:+$PARTS
+}Active trace: $TRACE_ID"
+fi
+
 # Current gate state
 if [ -f "$ANVIL/checks/.current-gate" ]; then
   GATE=$(cat "$ANVIL/checks/.current-gate" | tr -d '[:space:]')
