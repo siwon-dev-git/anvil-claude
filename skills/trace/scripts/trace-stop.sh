@@ -24,12 +24,15 @@ if [ "$BASELINE" != "no-git" ] && [ "$END_COMMIT" != "no-git" ]; then
   DIFF_STAT=$(git diff "$BASELINE".."$END_COMMIT" --stat 2>/dev/null || echo "(no changes)")
   COMMIT_LOG=$(git log "$BASELINE".."$END_COMMIT" --oneline 2>/dev/null || echo "(no commits)")
   COMMIT_COUNT=$(git rev-list "$BASELINE".."$END_COMMIT" --count 2>/dev/null || echo "0")
-  FILES_CHANGED=$(git diff "$BASELINE".."$END_COMMIT" --name-only 2>/dev/null | wc -l | tr -d ' ')
+  COMMITTED_FILES=$(git diff "$BASELINE".."$END_COMMIT" --name-only 2>/dev/null | wc -l | tr -d ' ')
+  UNCOMMITTED_FILES=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+  FILES_CHANGED=$((COMMITTED_FILES + UNCOMMITTED_FILES))
 else
   DIFF_STAT="(git not available)"
   COMMIT_LOG="(git not available)"
   COMMIT_COUNT="0"
   FILES_CHANGED="0"
+  UNCOMMITTED_FILES="0"
 fi
 
 # Update trace file — replace Results section
@@ -38,7 +41,7 @@ RESULTS_BLOCK="## Results
 - **Ended:** $TIMESTAMP
 - **End commit:** $END_COMMIT
 - **Commits:** $COMMIT_COUNT
-- **Files changed:** $FILES_CHANGED
+- **Files changed:** $FILES_CHANGED (${UNCOMMITTED_FILES:-0} uncommitted)
 
 ### Diff Summary
 \`\`\`

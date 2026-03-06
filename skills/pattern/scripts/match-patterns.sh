@@ -15,7 +15,10 @@ echo "=== Pattern Scan ==="
 
 # Extract category tags from FMEA entries
 # Expected format: lines containing [category-tag] or **Category:** tag
-CATEGORIES=$(grep -oE '\b(dep|fmt|type|logic|build|env|int)-(lockfile|missing|version|peer|style|lint|import|mismatch|null|assert|runtime|timeout|regression|compile|bundle|size|tool|config|platform|api|schema|compat)\b' "$FMEA" 2>/dev/null || true)
+# Match compound tags (type-mismatch) and simple tags (runtime, testing, dependency)
+COMPOUND=$(grep -oE '\b(dep|fmt|type|logic|build|env|int)-(lockfile|missing|version|peer|style|lint|import|mismatch|null|assert|runtime|timeout|regression|compile|bundle|size|tool|config|platform|api|schema|compat)\b' "$FMEA" 2>/dev/null || true)
+SIMPLE=$(grep -oE '\[(runtime|testing|dependency|build|environment|integration|formatting|typing)\]' "$FMEA" 2>/dev/null | tr -d '[]' || true)
+CATEGORIES=$(printf '%s\n%s' "$COMPOUND" "$SIMPLE" | sed '/^$/d')
 
 if [ -z "$CATEGORIES" ]; then
   echo "No categorized failures found."
