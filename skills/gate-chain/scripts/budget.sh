@@ -14,16 +14,24 @@ echo "=== G3+ Budget ==="
 BUDGET_KB=$(grep 'bundle_budget_kb:' "$ROOT/.anvil/profile.yaml" 2>/dev/null | grep -oE '[0-9]+' | head -1 || true)
 BUDGET_KB=${BUDGET_KB:-512}
 
+# Detect framework for build output path
+FRAMEWORK=$(grep 'framework:' "$ROOT/.anvil/profile.yaml" 2>/dev/null | sed 's/^framework: *//' || echo "none")
+
 # Measure build output size
 TOTAL=0
 case "$PKG" in
   pnpm|npm|yarn|bun)
-    for f in dist/assets/*.js dist/assets/*.css; do
-      [ -f "$f" ] && TOTAL=$((TOTAL + $(wc -c < "$f")))
-    done
+    case "$FRAMEWORK" in
+      next)  BUILD_DIR=".next/static" ;;
+      vite)  BUILD_DIR="dist/assets" ;;
+      *)     BUILD_DIR="dist" ;;
+    esac
+    if [ -d "$BUILD_DIR" ]; then
+      TOTAL=$(find "$BUILD_DIR" -type f \( -name '*.js' -o -name '*.css' \) -exec cat {} + 2>/dev/null | wc -c | tr -d ' ')
+    fi
     ;;
   go|cargo)
-    BIN=$(find . -maxdepth 2 -type f -perm /111 ! -path './node_modules/*' | head -1)
+    BIN=$(find . -maxdepth 2 -type f -perm /111 ! -path './node_modules/*' ! -path './.git/*' | head -1)
     [ -f "$BIN" ] && TOTAL=$(wc -c < "$BIN")
     ;;
   *)

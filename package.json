@@ -1,6 +1,6 @@
 {
   "name": "anvil-claude",
-  "version": "0.0.10-alpha",
+  "version": "0.0.11-alpha",
   "description": "Execution intelligence for AI agents. Trace, understand, and prevent recurring failures in AI-assisted development.",
   "license": "MIT",
   "repository": {

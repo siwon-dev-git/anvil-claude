@@ -52,7 +52,7 @@ fi
 # Linter
 LINTER="none"
 if [ -f "eslint.config.js" ] || [ -f "eslint.config.mjs" ] || [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ]; then LINTER="eslint"
-elif [ -f "biome.json" ]; then LINTER="biome"
+elif [ -f "biome.json" ] || [ -f "biome.jsonc" ] || grep -q '"@biomejs/biome"' package.json 2>/dev/null; then LINTER="biome"
 elif [ -f ".golangci.yml" ]; then LINTER="golangci-lint"
 elif [ -f "clippy.toml" ] || [ -f ".clippy.toml" ]; then LINTER="clippy"
 elif [ -f "ruff.toml" ] || grep -q "ruff" pyproject.toml 2>/dev/null; then LINTER="ruff"

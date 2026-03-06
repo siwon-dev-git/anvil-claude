@@ -15,6 +15,9 @@ Thumbs.db
 # Claude Code plugins
 .omc/
 
+# Internal docs (not published)
+docs/
+
 # Secrets / Credentials
 .env
 .env.*

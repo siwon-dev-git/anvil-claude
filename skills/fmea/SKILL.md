@@ -34,3 +34,4 @@ Hardening conditions -> Read `reference/hardening.md`
 1. Every failure MUST include a Fix
 2. Hardening means "defense is installed" (CI gate, lint rule, etc.)
 3. Hardened patterns move to archived.md, removed from active.md
+4. After `add` or `harden`, run `self-model auto-update` to sync heritage counts
