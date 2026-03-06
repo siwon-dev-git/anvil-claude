@@ -13,7 +13,9 @@ if [ -f "$_LOCALE_ROOT/.anvil/profile.yaml" ]; then
 fi
 
 # Fallback to en if locale file doesn't exist
+# shellcheck source=en.sh
 if [ -f "$_LOCALE_DIR/$ANVIL_LOCALE.sh" ]; then
+  # shellcheck disable=SC1090
   source "$_LOCALE_DIR/$ANVIL_LOCALE.sh"
 else
   source "$_LOCALE_DIR/en.sh"
