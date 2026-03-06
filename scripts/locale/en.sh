@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Anvil locale — English
+# shellcheck disable=SC2034
+# Anvil locale — English (sourced by _load.sh, variables used externally)
 
 # Monitor
 L_MONITOR_TITLE="anvil monitor"

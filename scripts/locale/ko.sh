@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Anvil locale — 한국어
+# shellcheck disable=SC2034
+# Anvil locale — 한국어 (sourced by _load.sh, variables used externally)
 
 # Monitor
 L_MONITOR_TITLE="anvil 모니터"
