@@ -34,3 +34,4 @@ Tag conventions -> Read `reference/tags.md`
 1. Every decision MUST include rationale
 2. Duplicate name -> archive existing -> add new
 3. Use only tags defined in project profile
+4. After `add` or `archive`, run `self-model auto-update` to sync heritage counts

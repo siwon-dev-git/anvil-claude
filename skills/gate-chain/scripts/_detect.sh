@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Stack auto-detection. Sourced by all gate scripts.
 
+# Source guard: prevent double execution
+[ -n "${_DETECT_LOADED:-}" ] && return 0 2>/dev/null || true
+_DETECT_LOADED=1
+
 # Find project root: git root first, then walk up from cwd
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 [ -d "$ROOT/.anvil" ] || ROOT="$(pwd)"
